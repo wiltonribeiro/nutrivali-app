@@ -21,8 +21,9 @@ class Initial extends StatelessWidget{
               new Stack(children: <Widget>[
 //                new Container(decoration: BoxDecoration(color: Theme.of(context).primaryColor, borderRadius: BorderRadius.only(topRight: Radius.elliptical(750, 280)))),
                 new Container(decoration: BoxDecoration(color: Theme.of(context).primaryColor, borderRadius: BorderRadius.only(topRight: Radius.elliptical(650, 300)))),
-                new Padding(padding: EdgeInsets.only(top: 50, left: 30, right: 30), child:
-                  new Column(children: <Widget>[
+                new Padding(padding: EdgeInsets.only(top: 50, left: 30, right: 30, bottom: 50), child:
+                  new Column(mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,children: <Widget>[
                     new Padding(padding: EdgeInsets.only(bottom: 10), child: new Center(child: new Image.asset("assets/graphics/logo.png", width: 140))),
                     new Text("Garanta a qualidade dos seus alimentos guardados em potinhos", textAlign: TextAlign.center, style: TextStyle(color: Theme.of(context).accentColor, fontSize: 20)),
                     new Padding(padding: EdgeInsets.only(top: 40), child:
