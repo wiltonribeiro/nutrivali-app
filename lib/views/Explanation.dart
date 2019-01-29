@@ -12,17 +12,17 @@ class Explanation extends StatelessWidget {
               new Padding(padding: EdgeInsets.all(40), child: Image.asset("assets/graphics/logo.png"))
             )
           ),
-          new Padding(padding: EdgeInsets.only(bottom: 5, left: 20, right: 40), child:
+          new Padding(padding: EdgeInsets.only(top: 10,bottom: 15, left: 20, right: 40), child:
             new Column(children: <Widget>[
               new Align(child: new Text("Como funciona ?", style: TextStyle(color: Theme.of(context).accentColor, fontSize: 50)), alignment: Alignment.centerLeft),
-              new Padding(padding: EdgeInsets.only(top: 20), child:
-                new Align(child: new Text("Você já fez compras e guardou um alimento em algum potinho e esqueceu a validade dele ?", style: TextStyle(color: Theme.of(context).primaryColorDark, fontSize: 18)), alignment: Alignment.centerLeft)
+              new Padding(padding: EdgeInsets.only(top: 40), child:
+                new Align(child: new Text("Você já fez compras e guardou um alimento em algum potinho e esqueceu a validade dele ?", style: TextStyle(color: Theme.of(context).primaryColorDark, fontSize: 20)), alignment: Alignment.centerLeft)
               ),
               new Padding(padding: EdgeInsets.only(top: 20), child:
-                new Align(child: new Text("Ou comprou um produto baratinho com o prazo perto de vencer mas esqueceu de comer ?", style: TextStyle(color: Theme.of(context).accentColor, fontSize: 18)), alignment: Alignment.centerLeft)
+                new Align(child: new Text("Ou comprou um produto baratinho com o prazo perto de vencer mas esqueceu de comer ?", style: TextStyle(color: Theme.of(context).accentColor, fontSize: 20)), alignment: Alignment.centerLeft)
               ),
               new Padding(padding: EdgeInsets.only(top: 20), child:
-                new Align(child: new Text("Aqui nós te lembramos até da fruta da feira, que está madura esperando por você.", style: TextStyle(color: Theme.of(context).primaryColorDark, fontSize: 18)), alignment: Alignment.centerLeft)
+                new Align(child: new Text("Aqui nós te lembramos até da fruta da feira, que está madura esperando por você.", style: TextStyle(color: Theme.of(context).primaryColorDark, fontSize: 20)), alignment: Alignment.centerLeft)
               ),
             ])
           )
