@@ -18,7 +18,7 @@ class FoodController {
   }
 
   Future<List<Food>> getFood() async {
-    var uid = AuthController().getUserId();
+    var uid = await AuthController().getUserId();
     var response = await http.get("${Environment.urlAPI}/foods/user/$uid");
     if(response.statusCode != 404) {
       List responseJson = json.decode(response.body);

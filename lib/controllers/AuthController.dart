@@ -20,7 +20,6 @@ class AuthController {
   }
 
   Future<bool> register() async {
-    print("1");
     var user = await _auth.signInAnonymously();
     var token = await getUserToken();
     return await registerUserData(user.uid, token);
@@ -37,7 +36,6 @@ class AuthController {
 
   Future<bool> checkUserLogged() async{
     var user = await _auth.currentUser();
-    print(user);
     return !(user == null || user.uid == null);
   }
 

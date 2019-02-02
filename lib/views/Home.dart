@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:app/controllers/FoodController.dart';
-import 'package:intl/intl.dart';
+import 'components/BottomSheetContent.dart';
 import 'package:app/models/Food.dart';
 
 class Home extends StatefulWidget {
@@ -14,6 +14,7 @@ class _Home extends State<Home> {
   bool _nothing = false;
   int _foodCount;
   int _invalidFoodCount;
+  final _key = new GlobalKey<ScaffoldState>();
   List<Food> _userFoods = List();
 
   @override
@@ -53,6 +54,8 @@ class _Home extends State<Home> {
     var _result = await result;
     if(_result) {
       _getFoodData();
+    } else {
+      _key.currentState.showSnackBar(SnackBar(content: const Text('Erro ao enviar'), action: SnackBarAction(label: 'OK', onPressed: _key.currentState.hideCurrentSnackBar)));
     }
   }
 
@@ -60,12 +63,11 @@ class _Home extends State<Home> {
     showModalBottomSheet(
         context: context,
         builder: (BuildContext bc){
-          return new BottomSheetContent((result) => _afterSendingData(result));
+          return new BottomSheetContent((result) => _afterSendingData(result), _key);
     });
   }
 
   Widget _bottomBar(){
-
     return new Container(color: Theme.of(context).primaryColorDark, height: 70, child:
       new AnimatedOpacity(opacity: _visibleData ? 1.0 : 0.0, duration: Duration(seconds: 1), child :
         new Container(width: double.infinity, child:
@@ -106,7 +108,7 @@ class _Home extends State<Home> {
 
 
   Widget build(BuildContext context){
-    return Scaffold(bottomNavigationBar: BottomAppBar(child: _bottomBar()), floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked, backgroundColor: Theme.of(context).primaryColor, floatingActionButton: new FloatingActionButton(onPressed: _openBottomSheet, child: Icon(Icons.add, color: Colors.white), backgroundColor: Theme.of(context).accentColor),
+    return Scaffold(bottomNavigationBar: BottomAppBar(child: _bottomBar()), key: _key, floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked, backgroundColor: Theme.of(context).primaryColor, floatingActionButton: new FloatingActionButton(onPressed: _openBottomSheet, child: Icon(Icons.add, color: Colors.white), backgroundColor: Theme.of(context).accentColor),
         body: new Stack(children: <Widget>[
           new Column(mainAxisSize: MainAxisSize.max, children: <Widget>[
             new Container(width: double.infinity,decoration: BoxDecoration(color: Theme.of(context).accentColor, borderRadius: BorderRadius.only(bottomLeft: Radius.elliptical(120, 80), bottomRight: Radius.elliptical(120, 80))), child:
@@ -123,83 +125,6 @@ class _Home extends State<Home> {
             _centerWidgetDecision()
           )
         ])
-    );
-  }
-}
-
-class BottomSheetContent extends StatefulWidget {
-
-  final Function _onRegister;
-  BottomSheetContent(this._onRegister);
-
-  _BottomSheetContent createState() => _BottomSheetContent();
-}
-
-class _BottomSheetContent extends State<BottomSheetContent> {
-
-  String _dateFormat = new DateFormat('dd/MM/yyyy').format(DateTime.now());
-  FoodController _foodController = FoodController();
-  TextEditingController _textEditingController = new TextEditingController();
-
-  Future _showDatePicker() async {
-    DateTime picked = await showDatePicker(
-      context: context,
-      initialDate: new DateTime.now(),
-      firstDate: new DateTime(2019),
-      lastDate: new DateTime(2040),
-      locale: Locale("pt", "BR"),
-    );
-
-
-    if(picked != null){
-      setState((){
-        _dateFormat = new DateFormat('dd/MM/yyyy').format(picked);
-      });
-    }
-  }
-
-  Widget build(BuildContext context){
-    var color = Theme.of(context).primaryColorDark;
-    return new Column(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        new Container(margin: EdgeInsets.only(left: 20, top: 20, bottom: 10),child:
-        new TextField(
-          controller: _textEditingController,
-          keyboardType: TextInputType.text,
-          decoration: InputDecoration(
-            icon: new Padding(padding: EdgeInsets.only(right: 15), child: new Icon(Icons.text_fields, color: color)),
-            labelStyle: new TextStyle(color: color),
-            hintStyle: TextStyle(color: Colors.grey),
-            focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: color, width: 1)),
-            labelText: "Digite a descrição",
-            hintText: "Ex: Arroz Ribeiro",
-            border: UnderlineInputBorder(),
-          ),
-          style: TextStyle(fontSize: 18, color: color),
-        )
-        ),
-        new ListTile(
-          leading: new Icon(Icons.today, color: color),
-          title: new Text('Selecione a data de vencimento', style: TextStyle(color: color)),
-          subtitle: new Text("$_dateFormat", style: TextStyle(color: color, fontWeight: FontWeight.bold)),
-          onTap: _showDatePicker,
-        ),
-        new Container(
-            margin: EdgeInsets.only(bottom: 20, top: 10),
-            width: double.infinity,
-            child: new FlatButton(
-                padding: EdgeInsets.all(15),
-                child: new Text("CADASTRAR".toUpperCase(), style: TextStyle(color: Theme.of(context).accentColor)),
-                onPressed:(){
-                  if(_textEditingController.text.isNotEmpty){
-                     widget._onRegister(_foodController.addFood(_textEditingController.text, _dateFormat));
-                     Navigator.pop(context);
-                  }
-                }
-            )
-        ),
-      ],
     );
   }
 }
