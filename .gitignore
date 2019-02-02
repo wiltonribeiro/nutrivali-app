@@ -31,6 +31,7 @@ build/
 # Android related
 **/android/**/gradle-wrapper.jar
 **/android/.gradle
+**/android/app/google-services.json
 **/android/captures/
 **/android/gradlew
 **/android/gradlew.bat
@@ -69,3 +70,4 @@ build/
 !**/ios/**/default.pbxuser
 !**/ios/**/default.perspectivev3
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
+lib/config/Environment.dart

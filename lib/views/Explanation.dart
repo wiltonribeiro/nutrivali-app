@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+import 'Home.dart';
 
 class Explanation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(floatingActionButton: new FloatingActionButton(onPressed: (){}, child: Icon(Icons.navigate_next), backgroundColor: Theme.of(context).accentColor, foregroundColor: Colors.white),backgroundColor: Theme.of(context).primaryColor, body: new SingleChildScrollView(child:
+    return new Scaffold(floatingActionButton: new FloatingActionButton(onPressed: (){
+      Navigator.push(context, CupertinoPageRoute(builder: (context) => Home()));
+    }, child: Icon(Icons.navigate_next), backgroundColor: Theme.of(context).accentColor, foregroundColor: Colors.white),backgroundColor: Theme.of(context).primaryColor, body: new SingleChildScrollView(child:
       new Container(child:
         new Column(children: <Widget>[
           new Container(constraints: BoxConstraints(minWidth: double.infinity, minHeight: 200, maxHeight: 200), decoration: BoxDecoration(color: Theme.of(context).accentColor, borderRadius: BorderRadius.only(bottomLeft: Radius.elliptical(500, 310))), child:
@@ -12,7 +16,7 @@ class Explanation extends StatelessWidget {
               new Padding(padding: EdgeInsets.all(40), child: Image.asset("assets/graphics/logo.png"))
             )
           ),
-          new Padding(padding: EdgeInsets.only(top: 10,bottom: 15, left: 20, right: 40), child:
+          new Padding(padding: EdgeInsets.only(top: 10,bottom: 40, left: 20, right: 40), child:
             new Column(children: <Widget>[
               new Align(child: new Text("Como funciona ?", style: TextStyle(color: Theme.of(context).accentColor, fontSize: 50)), alignment: Alignment.centerLeft),
               new Padding(padding: EdgeInsets.only(top: 40), child:

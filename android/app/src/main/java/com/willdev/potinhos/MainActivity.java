@@ -1,4 +1,4 @@
-package com.example.app;
+package com.willdev.potinhos;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;

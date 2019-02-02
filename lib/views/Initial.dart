@@ -1,13 +1,54 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:app/controllers/AuthController.dart';
+import 'Home.dart';
 import 'Explanation.dart';
 
-class Initial extends StatelessWidget{
+class Initial extends StatefulWidget {
+  _Initial createState() => _Initial();
+}
+
+class _Initial extends State<Initial>{
+
+  bool _loading = true;
+
+  @override
+  void initState() {
+    _check();
+    super.initState();
+  }
+
+  void _check() async {
+    if(await AuthController().checkUserLogged()){
+      Navigator.pushAndRemoveUntil(context, CupertinoPageRoute(builder: (context) => Home()), (Route<dynamic> route) => false);
+    }
+    else{
+      var result = await AuthController().register();
+      if(result) setState(() => _loading = false);
+      else print("5");
+    }
+  }
+
+  Widget _initButton() {
+    return new SizedBox(
+      width: double.infinity,
+      child: new RaisedButton(child: new Text("iniciar".toUpperCase()), padding: EdgeInsets.all(20), color: Theme.of(context).accentColor, onPressed: (){
+        Navigator.push(context, CupertinoPageRoute(builder: (context) => Explanation()));
+      }, shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20)))),
+    );
+  }
+
+  Widget _loadingContent(){
+    return new Center(child:
+      new SizedBox(width: 20, height: 20, child: new CircularProgressIndicator(valueColor: new AlwaysStoppedAnimation<Color>(Theme.of(context).accentColor), strokeWidth: 1,))
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(backgroundColor: Theme.of(context).accentColor, body: Stack(children: <Widget>[
       new Column(children: <Widget>[
-        new Padding(padding: EdgeInsets.only(top: 60, bottom: 10), child: new Text("APP NAME")),
+        new Padding(padding: EdgeInsets.only(top: 60, bottom: 10), child: new Text("MEUS POTINHOS")),
         new Align(alignment: Alignment.centerRight, child:
           new Container(padding: EdgeInsets.only(right: 10, top: 30, left: 40), child:
             new Column(children: <Widget>[
@@ -29,12 +70,7 @@ class Initial extends StatelessWidget{
                      new Padding(padding: EdgeInsets.only(bottom: 10), child: new Center(child: new Image.asset("assets/graphics/logo.png", width: 140))),
                      new Text("Garanta a qualidade dos seus alimentos guardados em potinhos", textAlign: TextAlign.center, style: TextStyle(color: Theme.of(context).accentColor, fontSize: 20)),
                      new Padding(padding: EdgeInsets.only(top: 40), child:
-                     new SizedBox(
-                       width: double.infinity,
-                       child: new RaisedButton(child: new Text("iniciar".toUpperCase()), padding: EdgeInsets.all(20), color: Theme.of(context).accentColor, onPressed: (){
-                         Navigator.push(context, CupertinoPageRoute(builder: (context) => Explanation()));
-                       }, shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20)))),
-                     )
+                        _loading ? _loadingContent() : _initButton()
                      )
                    ])
                )
