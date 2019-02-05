@@ -5,7 +5,6 @@ import 'package:http/http.dart' as http;
 import 'package:app/config/Environment.dart';
 import 'dart:convert';
 
-
 class AuthController {
 
   static final AuthController _authController = new AuthController._internal();
@@ -17,6 +16,26 @@ class AuthController {
 
   AuthController._internal(){
     _auth = FirebaseAuth.instance;
+  }
+
+  void _checkToken(String uid, String token) async {
+    print("estou a ir checar o token do usuario $uid");
+    var response = await http.get("${Environment.urlAPI}/user/$uid");
+    if(response.statusCode != 404 && response.statusCode != 500) {
+      print("aparentemente deu certo");
+      var j = json.decode(response.body);
+      var user = User.fromJson(j);
+      if(user.token != token){
+        user.token = token;
+        _updateToken(user);
+      }
+    }
+  }
+
+  void _updateToken(User user) async {
+    var url = "${Environment.urlAPI}/users/update";
+    var response = await http.post(url, body: jsonEncode(user.toJSON()), headers: {"Accept": "application/json", "content-type": "application/json"});
+    if (response.statusCode != 200) print("updaaaaaate");
   }
 
   Future<bool> register() async {
@@ -36,7 +55,10 @@ class AuthController {
 
   Future<bool> checkUserLogged() async{
     var user = await _auth.currentUser();
-    return !(user == null || user.uid == null);
+    var token = await getUserToken();
+    bool isLogged = !(user == null || user.uid == null);
+    if(isLogged) _checkToken(user.uid, token);
+    return isLogged;
   }
 
   Future<String> getUserToken() {
@@ -55,7 +77,6 @@ class AuthController {
         return false;
       }
     }
-
   }
 
 

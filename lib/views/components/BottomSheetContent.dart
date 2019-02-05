@@ -72,7 +72,8 @@ class _BottomSheetContent extends State<BottomSheetContent> {
                 child: new Text("CADASTRAR".toUpperCase(), style: TextStyle(color: Theme.of(context).accentColor)),
                 onPressed:(){
                   if(_textEditingController.text.isNotEmpty){
-                    widget._onRegister(_foodController.addFood(_textEditingController.text, _dateFormat));
+                    var result = _foodController.addFood(_textEditingController.text, _dateFormat);
+                    widget._onRegister(result);
                     Navigator.pop(context);
                   } else {
                     Navigator.pop(context);

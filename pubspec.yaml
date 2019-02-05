@@ -27,6 +27,8 @@ dependencies:
   flutter_cupertino_date_picker: ^0.3.0
   http: ^0.12.0+1
   intl: ^0.15.7
+  uuid: ^2.0.0-rc1
+  carousel_slider: ^1.0.1
 
 dev_dependencies:
   flutter_test:

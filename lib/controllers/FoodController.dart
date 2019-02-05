@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:app/views/components/BadFood.dart';
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 
 class FoodController {
 
@@ -22,14 +23,19 @@ class FoodController {
     _foods = new List();
   }
 
-  Future<List<Food>> getFoods() async {
+  Future<Map> requestFoods() async {
     var uid = await AuthController().getUserId();
     var response = await http.get("${Environment.urlAPI}/foods/user/$uid");
-    if(response.statusCode != 404) {
+    if(response.statusCode == 200) {
       List responseJson = json.decode(response.body);
       _foods = responseJson.map((m) => new Food.fromJson(m)).toList();
       _sortFoods();
     }
+    return {"code": response.statusCode};
+  }
+
+  List<Food> getFoods(){
+    _sortFoods();
     return _foods;
   }
 
@@ -37,19 +43,21 @@ class FoodController {
     _foods.sort((a,b) => _format.parse(a.limitDate).compareTo(_format.parse(b.limitDate)));
   }
 
-  Future<bool> addFood(String description, String limitDate) async {
+  Future<Map<String, dynamic>> addFood(String description, String limitDate) async {
     var uidUser = await AuthController().getUserId();
-    var food = new Food(description, limitDate, uidUser);
+    var food = new Food(new Uuid().v1(), description, limitDate, uidUser);
     var url = "${Environment.urlAPI}/foods";
 
     var response = await http.post(url, body: jsonEncode(food.toJSON()), headers: {"Accept": "application/json", "content-type": "application/json"});
-    if(response.statusCode != 200) return false;
-    else return true;
+    if(response.statusCode != 200) return {"response": false, "data": null};
+    else return {"response": true, "data": food};
   }
 
-  Future<bool> deleteFood(int i) async {
-
-    return false;
+  Future<Map<String, dynamic>> deleteFood(Food food) async {
+    var url = "${Environment.urlAPI}/foods/remove";
+    var response = await http.post(url, body: jsonEncode(food.toJSON()), headers: {"Accept": "application/json", "content-type": "application/json"});
+    if(response.statusCode != 200) return {"response": false, "data": null};
+    else return {"response": true, "data": food};
   }
 
   Future<bool> updateFood(int i) async {

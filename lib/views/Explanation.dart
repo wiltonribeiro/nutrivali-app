@@ -1,38 +1,67 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'Home.dart';
+import 'package:app/views/components/Tutorial.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
-class Explanation extends StatelessWidget {
+class Explanation extends StatefulWidget {
+  _Explanation createState() => _Explanation();
+}
+
+class _Explanation extends State<Explanation> {
+
+  int _current = 0;
+  List<Widget> _tutorial = new Tutorial().getTutorial();
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(floatingActionButton: new FloatingActionButton(onPressed: (){
-      Navigator.push(context, CupertinoPageRoute(builder: (context) => Home()));
-    }, child: Icon(Icons.navigate_next), backgroundColor: Theme.of(context).accentColor, foregroundColor: Colors.white),backgroundColor: Theme.of(context).primaryColor, body: new SingleChildScrollView(child:
-      new Container(child:
-        new Column(children: <Widget>[
-          new Container(constraints: BoxConstraints(minWidth: double.infinity, minHeight: 200, maxHeight: 200), decoration: BoxDecoration(color: Theme.of(context).accentColor, borderRadius: BorderRadius.only(bottomLeft: Radius.elliptical(500, 310))), child:
-            new Align(alignment: Alignment.centerRight, child:
-              new Padding(padding: EdgeInsets.all(40), child: Image.asset("assets/graphics/logo.png"))
+    return new Scaffold(floatingActionButton: new AnimatedOpacity(opacity: _current == 2 ? 1.0 : 0.0, duration: Duration(milliseconds: 200), child:
+      new FloatingActionButton(
+          onPressed: (){
+            Navigator.push(context, CupertinoPageRoute(builder: (context) => Home()));
+            }
+          ,child: Icon(Icons.check), backgroundColor: Theme.of(context).accentColor, foregroundColor: Colors.white)
+      ),backgroundColor: Theme.of(context).primaryColor, body: new SingleChildScrollView(child:
+      new Container(height: MediaQuery.of(context).size.height, child:
+        new Stack(children: <Widget>[
+          new Center(child:
+            new CarouselSlider(
+                items: _tutorial.map((item) {
+                  return new Builder(
+                    builder: (BuildContext context) {
+                      return new Container(
+                          width: MediaQuery.of(context).size.width,
+                          margin: new EdgeInsets.symmetric(horizontal: 5.0),
+                          child: new Center(child:
+                            new AnimatedOpacity(opacity: _tutorial[_current] == item ? 1.0 : 0.0, duration: Duration(milliseconds: 500), child: item)
+                          )
+                      );
+                    },
+                  );
+                }).toList(),
+                updateCallback: (index) {
+                  setState(() {
+                    _current = index;
+                  });
+                },
+                reverse: false,
+                height: MediaQuery.of(context).size.height,
+                autoPlayDuration: Duration(days: 1),
+                autoPlay: false
             )
           ),
-          new Padding(padding: EdgeInsets.only(top: 10,bottom: 40, left: 20, right: 40), child:
-            new Column(children: <Widget>[
-              new Align(child: new Text("Como funciona ?", style: TextStyle(color: Theme.of(context).accentColor, fontSize: 50)), alignment: Alignment.centerLeft),
-              new Padding(padding: EdgeInsets.only(top: 40), child:
-                new Align(child: new Text("Você já fez compras e guardou um alimento em algum potinho e esqueceu a validade dele ?", style: TextStyle(color: Theme.of(context).primaryColorDark, fontSize: 20)), alignment: Alignment.centerLeft)
-              ),
-              new Padding(padding: EdgeInsets.only(top: 20), child:
-                new Align(child: new Text("Ou comprou um produto baratinho com o prazo perto de vencer mas esqueceu de comer ?", style: TextStyle(color: Theme.of(context).accentColor, fontSize: 20)), alignment: Alignment.centerLeft)
-              ),
-              new Padding(padding: EdgeInsets.only(top: 20), child:
-                new Align(child: new Text("Aqui nós te lembramos até da fruta da feira, que está madura esperando por você.", style: TextStyle(color: Theme.of(context).primaryColorDark, fontSize: 20)), alignment: Alignment.centerLeft)
-              ),
-            ])
+          new Positioned(child:
+            new Align(alignment: FractionalOffset.bottomCenter, child:
+              new Row(mainAxisAlignment: MainAxisAlignment.center, children: [0,1,2].map((i) =>
+                  new Container (width: 8.0, height: 8.0,
+                      margin: EdgeInsets.symmetric(vertical: 40.0, horizontal: 2.0),
+                      decoration: BoxDecoration(shape: BoxShape.circle, color: _current == i ? Theme.of(context).accentColor : Colors.grey),
+                  )).toList()
+              )
+            )
           )
         ])
       )
     ));
   }
-
 }

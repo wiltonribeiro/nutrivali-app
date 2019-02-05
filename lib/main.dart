@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:app/views/Initial.dart';
+import 'views/Explanation.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() async {
@@ -40,7 +41,7 @@ class MyApp extends StatelessWidget {
           body1: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
         ),
       ),
-      home: Initial(),
+      home: Explanation(),
     );
   }
 }
