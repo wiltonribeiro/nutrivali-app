@@ -118,7 +118,7 @@ class _Home extends State<Home> {
       return
         new AnimatedOpacity(opacity: _nothing ? 1.0 : 0.0, duration: Duration(seconds: 4), child :
           new Column(mainAxisAlignment: MainAxisAlignment.center,children: <Widget>[
-            new Center(child: new Image.asset("assets/graphics/sad.png", width: 100)),
+            new Center(child: new Image.asset("assets/graphics/question.png", width: 100)),
             new Center(child: new Padding(padding: EdgeInsets.only(top: 20), child: new Text("Não há nenhum alimento registrado ainda", style: TextStyle(color: Theme.of(context).accentColor))))
           ])
         );

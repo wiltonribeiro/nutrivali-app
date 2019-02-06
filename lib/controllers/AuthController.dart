@@ -19,10 +19,8 @@ class AuthController {
   }
 
   void _checkToken(String uid, String token) async {
-    print("estou a ir checar o token do usuario $uid");
     var response = await http.get("${Environment.urlAPI}/user/$uid");
     if(response.statusCode != 404 && response.statusCode != 500) {
-      print("aparentemente deu certo");
       var j = json.decode(response.body);
       var user = User.fromJson(j);
       if(user.token != token){

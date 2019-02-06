@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:app/controllers/AuthController.dart';
 import 'Home.dart';
-import 'Explanation.dart';
 
 class Initial extends StatefulWidget {
   _Initial createState() => _Initial();
@@ -19,21 +18,15 @@ class _Initial extends State<Initial>{
   }
 
   void _check() async {
-    if(await AuthController().checkUserLogged()){
-      Navigator.pushAndRemoveUntil(context, CupertinoPageRoute(builder: (context) => Home()), (Route<dynamic> route) => false);
-    }
-    else{
       var result = await AuthController().register();
       if(result) setState(() => _loading = false);
-      else print("5");
-    }
   }
 
   Widget _initButton() {
     return new SizedBox(
       width: double.infinity,
       child: new RaisedButton(child: new Text("iniciar".toUpperCase()), padding: EdgeInsets.all(20), color: Theme.of(context).accentColor, onPressed: (){
-        Navigator.push(context, CupertinoPageRoute(builder: (context) => Explanation()));
+        Navigator.push(context, CupertinoPageRoute(builder: (context) => Home()));
       }, shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20)))),
     );
   }
@@ -48,7 +41,7 @@ class _Initial extends State<Initial>{
   Widget build(BuildContext context) {
     return new Scaffold(backgroundColor: Theme.of(context).accentColor, body: Stack(children: <Widget>[
       new Column(children: <Widget>[
-        new Padding(padding: EdgeInsets.only(top: 60, bottom: 10), child: new Text("MEUS POTINHOS")),
+        new Padding(padding: EdgeInsets.only(top: 60, bottom: 10), child: new Text("nutrivali".toUpperCase())),
         new Align(alignment: Alignment.centerRight, child:
           new Container(padding: EdgeInsets.only(right: 10, top: 30, left: 40), child:
             new Column(children: <Widget>[
@@ -67,8 +60,8 @@ class _Initial extends State<Initial>{
                new Padding(padding: EdgeInsets.only(top: 50, left: 30, right: 30, bottom: 50), child:
                new Column(mainAxisAlignment: MainAxisAlignment.center,
                    crossAxisAlignment: CrossAxisAlignment.center,children: <Widget>[
-                     new Padding(padding: EdgeInsets.only(bottom: 10), child: new Center(child: new Image.asset("assets/graphics/logo.png", width: 140))),
-                     new Text("Garanta a qualidade dos seus alimentos guardados em potinhos", textAlign: TextAlign.center, style: TextStyle(color: Theme.of(context).accentColor, fontSize: 20)),
+                     new Padding(padding: EdgeInsets.only(bottom: 10), child: new Center(child: new Image.asset("assets/graphics/logo.png", width: 100))),
+                     new Text("Fique atento e garanta a qualidade dos seus alimentos", textAlign: TextAlign.center, style: TextStyle(color: Theme.of(context).accentColor, fontSize: 20)),
                      new Padding(padding: EdgeInsets.only(top: 40), child:
                         _loading ? _loadingContent() : _initButton()
                      )

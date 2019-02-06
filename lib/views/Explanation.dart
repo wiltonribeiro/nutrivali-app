@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'Home.dart';
+import 'Initial.dart';
 import 'package:app/views/components/Tutorial.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
@@ -18,7 +18,7 @@ class _Explanation extends State<Explanation> {
     return new Scaffold(floatingActionButton: new AnimatedOpacity(opacity: _current == 2 ? 1.0 : 0.0, duration: Duration(milliseconds: 200), child:
       new FloatingActionButton(
           onPressed: (){
-            Navigator.push(context, CupertinoPageRoute(builder: (context) => Home()));
+              Navigator.push(context, CupertinoPageRoute(builder: (context) => Initial()));
             }
           ,child: Icon(Icons.check), backgroundColor: Theme.of(context).accentColor, foregroundColor: Colors.white)
       ),backgroundColor: Theme.of(context).primaryColor, body: new SingleChildScrollView(child:
