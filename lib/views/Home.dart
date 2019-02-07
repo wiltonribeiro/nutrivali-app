@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:app/controllers/FoodController.dart';
 import 'components/BottomSheetContent.dart';
 import 'package:app/models/Food.dart';
+import 'package:app/config/MyLocalizations.dart';
 
 class Home extends StatefulWidget {
   _Home createState() => new _Home();
@@ -165,7 +166,7 @@ class _Home extends State<Home> {
     return Scaffold(key: _key, floatingActionButton: new FloatingActionButton(onPressed: _openBottomSheet, child: Icon(Icons.add, color: Colors.white), elevation: 5, backgroundColor: Theme.of(context).accentColor),
         body: new Stack(children: <Widget>[
           new Column(mainAxisSize: MainAxisSize.max, children: <Widget>[
-            new Padding(padding: EdgeInsets.only(top: 60, left: 20), child: new Text("Que a alimentação seja seu único remédio", textAlign: TextAlign.left, style: TextStyle(fontSize: 30, color: Theme.of(context).accentColor)))
+            new Padding(padding: EdgeInsets.only(top: 60, left: 20), child: new Text(MyLocalizations.of(context).trans('home_text_motivation'), textAlign: TextAlign.left, style: TextStyle(fontSize: 30, color: Theme.of(context).accentColor)))
           ]),
           new Container(margin: EdgeInsets.only(top: 160), child:
             _centerWidgetDecision()

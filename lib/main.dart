@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:app/views/Explanation.dart';
+import 'package:app/views/SplashScreen.dart';
+import 'package:app/config/MyLocalizationsDelegate.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() async {
@@ -15,6 +16,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: appName,
       localizationsDelegates: [
+        const MyLocalizationsDelegate(),
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
       ],
@@ -22,6 +24,19 @@ class MyApp extends StatelessWidget {
         const Locale('en', 'US'),
         const Locale('pt', 'BR'),
       ],
+      localeResolutionCallback: (Locale locale, Iterable<Locale> supportedLocales) {
+        if (locale == null) {
+          return supportedLocales.first;
+        }
+
+        for (Locale supportedLocale in supportedLocales) {
+          if (supportedLocale.languageCode == locale.languageCode || supportedLocale.countryCode == locale.countryCode) {
+            return supportedLocale;
+          }
+        }
+
+        return supportedLocales.first;
+      },
 
       theme: ThemeData(
 
@@ -40,7 +55,7 @@ class MyApp extends StatelessWidget {
           body1: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
         ),
       ),
-      home: Explanation(),
+      home: SplashScreen(),
     );
   }
 }

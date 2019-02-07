@@ -26,7 +26,7 @@ class _Initial extends State<Initial>{
     return new SizedBox(
       width: double.infinity,
       child: new RaisedButton(child: new Text("iniciar".toUpperCase()), padding: EdgeInsets.all(20), color: Theme.of(context).accentColor, onPressed: (){
-        Navigator.push(context, CupertinoPageRoute(builder: (context) => Home()));
+        Navigator.pushAndRemoveUntil(context, CupertinoPageRoute(builder: (context) => Home()), (Route<dynamic> route) => false);
       }, shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20)))),
     );
   }

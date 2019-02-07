@@ -12,7 +12,7 @@ class _SplashScreen extends State<SplashScreen> {
 
   @override
   initState(){
-//    _check();
+    _check();
     super.initState();
   }
 
@@ -28,7 +28,10 @@ class _SplashScreen extends State<SplashScreen> {
   @override
   Widget build(BuildContext context){
     return new Scaffold(backgroundColor: Colors.white, body:
-      new Center(child: new Image.asset("assets/graphics/logo.png", width: 140))
-    );
+      new Center(child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+        new Image.asset("assets/graphics/logo.png", width: 140),
+        new Padding(padding: EdgeInsets.only(top: 20), child: new SizedBox(width: 20, height: 20, child: new CircularProgressIndicator(valueColor: new AlwaysStoppedAnimation<Color>(Theme.of(context).accentColor), strokeWidth: 1)))
+      ])
+    ));
   }
 }
