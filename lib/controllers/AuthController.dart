@@ -36,10 +36,10 @@ class AuthController {
     if (response.statusCode != 200) print("updaaaaaate");
   }
 
-  Future<bool> register() async {
+  Future<bool> register(String lang) async {
     var user = await _auth.signInAnonymously();
     var token = await getUserToken();
-    return await registerUserData(user.uid, token);
+    return await registerUserData(user.uid, token, lang);
   }
 
   Future<void> logOut() async {
@@ -63,11 +63,11 @@ class AuthController {
     return MessagingController().getToken();
   }
 
-  Future<bool> registerUserData(String userId, String token) async {
+  Future<bool> registerUserData(String userId, String token, String lang) async {
     if (userId == null || userId.isEmpty || token == null || token.isEmpty) return false;
     else {
       var url = "${Environment.urlAPI}/users";
-      var user = new User(userId, token);
+      var user = new User(userId, token, lang);
       var response = await http.post(url, body: jsonEncode(user.toJSON()), headers: {"Accept": "application/json", "content-type": "application/json"});
       if(response.statusCode == 200) return true;
       else {

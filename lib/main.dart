@@ -11,7 +11,7 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final appName = 'Nutri Potes';
+    final appName = 'Nutrivali';
 
     return MaterialApp(
       title: appName,

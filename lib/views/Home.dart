@@ -50,7 +50,7 @@ class _Home extends State<Home> {
   }
 
   void _turnErrorOn(){
-    _key.currentState.showSnackBar(SnackBar(content: const Text('Erro'), action: SnackBarAction(label: 'OK', onPressed: _key.currentState.hideCurrentSnackBar)));
+    _key.currentState.showSnackBar(SnackBar(content: Text("${MyLocalizations.of(context).trans("error")}"), action: SnackBarAction(label: 'OK', onPressed: _key.currentState.hideCurrentSnackBar)));
     _reloadList();
   }
 
@@ -90,37 +90,13 @@ class _Home extends State<Home> {
     });
   }
 
-//  Widget _bottomBar(){
-//    return new Container(decoration: BoxDecoration(color: Theme.of(context).accentColor, borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10))), height: 50, child:
-//      new AnimatedOpacity(opacity: _visibleData ? 1.0 : 0.0, duration: Duration(seconds: 1), child :
-//        new Container(width: double.infinity, child:
-//          new Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: <Widget>[
-//            new Container(width: MediaQuery.of(context).size.width/2, child:
-//              new Column(mainAxisAlignment: MainAxisAlignment.center,children: <Widget>[
-//                new Text("$_foodCount", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
-//                new Center(child: new Text("Registrados"))
-//              ]),
-//            ),
-//          new Container(width: MediaQuery.of(context).size.width/2, child:
-//            new Column(mainAxisAlignment: MainAxisAlignment.center,children: <Widget>[
-//              new Center(child: new Text("$_invalidFoodCount", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold))),
-//              new Center(child: new Text("Fora de Validade"))
-//            ]),
-//          )
-//          ])
-//        )
-//      )
-//    );
-//  }
-
-
   Widget _centerWidgetDecision(){
     if(_nothing){
       return
         new AnimatedOpacity(opacity: _nothing ? 1.0 : 0.0, duration: Duration(seconds: 4), child :
           new Column(mainAxisAlignment: MainAxisAlignment.center,children: <Widget>[
             new Center(child: new Image.asset("assets/graphics/question.png", width: 100)),
-            new Center(child: new Padding(padding: EdgeInsets.only(top: 20), child: new Text("Não há nenhum alimento registrado ainda", style: TextStyle(color: Theme.of(context).accentColor))))
+            new Center(child: new Padding(padding: EdgeInsets.only(top: 20), child: new Text("${MyLocalizations.of(context).trans("no_food")}", style: TextStyle(color: Theme.of(context).accentColor))))
           ])
         );
     }
@@ -146,14 +122,14 @@ class _Home extends State<Home> {
       builder: (BuildContext context) {
         return Theme(data: Theme.of(context).copyWith(dialogBackgroundColor: Colors.white), child:
           new AlertDialog(shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5.0))), content:
-            new Text("Deseja excluir ${f.description} ?", style: TextStyle(color: Theme.of(context).primaryColorDark)),
+            new Text("${MyLocalizations.of(context).trans("delete_question")} ${f.description} ?", style: TextStyle(color: Theme.of(context).primaryColorDark)),
             actions: <Widget>[
               new FlatButton(onPressed: (){
                 var response = FoodController().deleteFood(f);
                 _afterDeleting(response);
                 Navigator.pop(context);
-              }, child: new Text("excluir".toUpperCase(), style: TextStyle(color: Colors.red))),
-              new FlatButton(onPressed: () => Navigator.pop(context), child: new Text("cancelar".toUpperCase(), style: TextStyle(color: Colors.grey))),
+              }, child: new Text("${MyLocalizations.of(context).trans("remove")}".toUpperCase(), style: TextStyle(color: Colors.red))),
+              new FlatButton(onPressed: () => Navigator.pop(context), child: new Text("${MyLocalizations.of(context).trans("cancel")}".toUpperCase(), style: TextStyle(color: Colors.grey))),
             ],
           ),
         );

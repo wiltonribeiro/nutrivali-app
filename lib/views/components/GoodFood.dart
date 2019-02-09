@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:app/config/MyLocalizations.dart';
+import 'package:intl/intl.dart';
 
 class GoodFood extends StatelessWidget {
 
-  final String _title, _addedDate, _limitDate;
+  String _title, _addedDate, _limitDate;
   GoodFood(this._title, this._addedDate, this._limitDate);
-  var _color = const Color(0xFF73ffab);
 
+  var _color = const Color(0xFF73ffab);
   Widget build(BuildContext context) {
+
+    var _dateFormat = new DateFormat('dd/MM/yyyy').parse(_limitDate);
+    _limitDate = new DateFormat('${MyLocalizations.of(context).trans("date_format")}').format(_dateFormat);
+
     return new Container(margin: EdgeInsets.only(right: 15, left: 20), width: double.infinity, child:
         new Row(children: <Widget>[
           new SizedBox(height: 100, width: 30, child: new Stack(children: <Widget>[
@@ -17,7 +23,7 @@ class GoodFood extends StatelessWidget {
               new Padding(padding: EdgeInsets.only(left: 10, right: 10), child:
                 new Column(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
                   new Padding(padding: EdgeInsets.only(bottom: 5), child: new Text("$_title".toUpperCase(), style: TextStyle(fontSize: 20, color: Theme.of(context).primaryColorDark), textAlign: TextAlign.left)),
-                  new Text("VALIDADE: $_limitDate", style: TextStyle(fontSize: 10, color: Theme.of(context).primaryColorDark), textAlign: TextAlign.left),
+                  new Text("${MyLocalizations.of(context).trans("expiration_date").toUpperCase()}: $_limitDate", style: TextStyle(fontSize: 10, color: Theme.of(context).primaryColorDark), textAlign: TextAlign.left),
                 ])
               )
           )

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:app/controllers/AuthController.dart';
+import 'package:app/config/MyLocalizations.dart';
 import 'Home.dart';
 
 class Initial extends StatefulWidget {
@@ -10,22 +11,28 @@ class Initial extends StatefulWidget {
 class _Initial extends State<Initial>{
 
   bool _loading = true;
+  bool _checkConfiguration() => true; 
 
   @override
   void initState() {
-    _check();
     super.initState();
+    if(_checkConfiguration()){
+      new Future.delayed(Duration.zero,(){
+        var lang = MyLocalizations.of(context).trans("languages");
+        _register(lang);
+      });
+    }
   }
 
-  void _check() async {
-      var result = await AuthController().register();
+  void _register(String lang) async {
+      var result = await AuthController().register(lang);
       if(result) setState(() => _loading = false);
   }
 
   Widget _initButton() {
     return new SizedBox(
       width: double.infinity,
-      child: new RaisedButton(child: new Text("iniciar".toUpperCase()), padding: EdgeInsets.all(20), color: Theme.of(context).accentColor, onPressed: (){
+      child: new RaisedButton(child: new Text(MyLocalizations.of(context).trans("iniciar").toUpperCase()), padding: EdgeInsets.all(20), color: Theme.of(context).accentColor, onPressed: (){
         Navigator.pushAndRemoveUntil(context, CupertinoPageRoute(builder: (context) => Home()), (Route<dynamic> route) => false);
       }, shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20)))),
     );
@@ -45,7 +52,7 @@ class _Initial extends State<Initial>{
         new Align(alignment: Alignment.centerRight, child:
           new Container(padding: EdgeInsets.only(right: 10, top: 30, left: 40), child:
             new Column(children: <Widget>[
-              new Text("\"A saúde não está na forma física, mas na forma de se alimentar\"", style: TextStyle(fontSize: 20), textAlign: TextAlign.right),
+              new Text("\"${MyLocalizations.of(context).trans("initial_phrase")}\"", style: TextStyle(fontSize: 20), textAlign: TextAlign.right),
               new Padding(padding: EdgeInsets.only(top: 10), child: new Align(alignment: Alignment.centerRight, child: new Text("Fábio Ibrahim El Khoury", style: TextStyle(fontSize: 13, fontFamily: 'CrimsonText'))))
             ])
           )
@@ -61,7 +68,7 @@ class _Initial extends State<Initial>{
                new Column(mainAxisAlignment: MainAxisAlignment.center,
                    crossAxisAlignment: CrossAxisAlignment.center,children: <Widget>[
                      new Padding(padding: EdgeInsets.only(bottom: 10), child: new Center(child: new Image.asset("assets/graphics/logo.png", width: 100))),
-                     new Text("Fique atento e garanta a qualidade dos seus alimentos", textAlign: TextAlign.center, style: TextStyle(color: Theme.of(context).accentColor, fontSize: 20)),
+                     new Text("${MyLocalizations.of(context).trans("initial_load_phrase")}", textAlign: TextAlign.center, style: TextStyle(color: Theme.of(context).accentColor, fontSize: 20)),
                      new Padding(padding: EdgeInsets.only(top: 40), child:
                         _loading ? _loadingContent() : _initButton()
                      )
