@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:app/controllers/FoodController.dart';
 import 'components/BottomSheetContent.dart';
 import 'package:app/models/Food.dart';
+import 'package:app/controllers/AdsController.dart';
 import 'package:app/config/MyLocalizations.dart';
+import 'dart:async';
 
 class Home extends StatefulWidget {
   _Home createState() => new _Home();
@@ -18,13 +20,33 @@ class _Home extends State<Home> {
   @override
   initState(){
     _getFoodData();
+    AdsController().load();
+    _keepAds(20);
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    AdsController().dispose();
+    super.dispose();
+  }
+
+  void _keepAds(int seconds){
+    new Timer.periodic(Duration(seconds: seconds), (Timer t) {
+      AdsController().load();
+    });
+  }
+
+  double marginFromAds() {
+    var screenHeight = MediaQuery.of(context).size.height;
+    return screenHeight > 720 ? 90 : screenHeight > 400 ? 50 : 32;
   }
 
   void _getFoodData() async {
     var response = await FoodController().requestFoods();
     if(response["code"] == 404 || response["code"] == 200) _reloadList();
   }
+
 
   void _reloadList(){
     if(FoodController().getFoods().length == 0){
@@ -150,4 +172,6 @@ class _Home extends State<Home> {
         ])
     );
   }
+
+
 }

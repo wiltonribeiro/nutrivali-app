@@ -4,11 +4,13 @@ import 'package:app/models/User.dart';
 import 'package:http/http.dart' as http;
 import 'package:app/config/Environment.dart';
 import 'dart:convert';
+import 'package:firebase_admob/firebase_admob.dart';
 
 class AuthController {
 
   static final AuthController _authController = new AuthController._internal();
   FirebaseAuth _auth;
+
 
   factory AuthController() {
     return _authController;
@@ -16,6 +18,7 @@ class AuthController {
 
   AuthController._internal(){
     _auth = FirebaseAuth.instance;
+    FirebaseAdMob.instance.initialize(appId: Environment.appAdMOBId);
   }
 
   void _checkToken(String uid, String token) async {

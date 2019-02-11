@@ -18,7 +18,7 @@ class _Initial extends State<Initial>{
     super.initState();
     if(_checkConfiguration()){
       new Future.delayed(Duration.zero,(){
-        var lang = MyLocalizations.of(context).trans("languages");
+        var lang = MyLocalizations.of(context).trans("language");
         _register(lang);
       });
     }
@@ -32,7 +32,7 @@ class _Initial extends State<Initial>{
   Widget _initButton() {
     return new SizedBox(
       width: double.infinity,
-      child: new RaisedButton(child: new Text(MyLocalizations.of(context).trans("iniciar").toUpperCase()), padding: EdgeInsets.all(20), color: Theme.of(context).accentColor, onPressed: (){
+      child: new RaisedButton(child: new Text(MyLocalizations.of(context).trans("start").toUpperCase()), padding: EdgeInsets.all(20), color: Theme.of(context).accentColor, onPressed: (){
         Navigator.pushAndRemoveUntil(context, CupertinoPageRoute(builder: (context) => Home()), (Route<dynamic> route) => false);
       }, shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20)))),
     );
