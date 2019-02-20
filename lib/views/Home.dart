@@ -21,7 +21,7 @@ class _Home extends State<Home> {
   initState(){
     _getFoodData();
     AdsController().load();
-    _keepAds(20);
+    _keepAds(45);
     super.initState();
   }
 
