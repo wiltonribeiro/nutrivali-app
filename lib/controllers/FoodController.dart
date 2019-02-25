@@ -12,6 +12,7 @@ import 'package:uuid/uuid.dart';
 class FoodController {
 
   List<Food> _foods;
+  static bool _alreadyBeenCalled = false;
   var _format = new DateFormat('dd/MM/yyyy');
   static final FoodController _foodController = new FoodController._internal();
 
@@ -23,9 +24,14 @@ class FoodController {
     _foods = new List();
   }
 
+  bool alreadyBeenCalled() => _alreadyBeenCalled;
+
   Future<Map> requestFoods() async {
     var uid = await AuthController().getUserId();
     var response = await http.get("${Environment.urlAPI}/foods/user/$uid");
+
+    _alreadyBeenCalled = true;
+
     if(response.statusCode == 200) {
       List responseJson = json.decode(response.body);
       _foods = responseJson.map((m) => new Food.fromJson(m)).toList();

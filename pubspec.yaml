@@ -30,6 +30,7 @@ dependencies:
   uuid: ^2.0.0-rc1
   carousel_slider: ^1.0.1
   firebase_admob: 0.6.1
+  url_launcher: ^5.0.1
 
 dev_dependencies:
   flutter_test:

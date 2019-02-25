@@ -75,6 +75,7 @@ class AuthController {
       if(response.statusCode == 200) return true;
       else {
         print(response.statusCode);
+        print("foi aqui");
         return false;
       }
     }
