@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:app/models/Article.dart';
 import 'package:app/config/MyLocalizations.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:app/views/WebView.dart';
+import 'package:flutter/cupertino.dart';
 
 class ArticleDetails extends StatelessWidget {
 
@@ -37,13 +39,22 @@ class ArticleDetails extends StatelessWidget {
                 ),
                 new Padding(padding: EdgeInsets.only(top: 20, bottom: 20, left: 0), child: new Text(_article.title, style: TextStyle(color: Theme.of(context).accentColor, fontSize: 20))),
                 new Text(_article.description, style: TextStyle(color: Theme.of(context).primaryColorDark, fontSize: 15)),
-                new Container(margin: EdgeInsets.only(top: 40), child:
-                  new SizedBox(width: double.infinity,
-                    child: new RaisedButton(child: new Text(MyLocalizations.of(context).trans("visit_url").toUpperCase()), padding: EdgeInsets.all(10), color: Theme.of(context).accentColor, onPressed: (){
-                      _launchURL(_article.url);
-                    }, shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20)))),
+                new Column(children: <Widget>[
+                  new Container(margin: EdgeInsets.only(top: 30), child:
+                    new SizedBox(width: double.infinity,
+                      child: new RaisedButton(child: new Text(MyLocalizations.of(context).trans("webView").toUpperCase()), elevation: 5, padding: EdgeInsets.all(10), color: Theme.of(context).accentColor, onPressed: (){
+                        Navigator.push(context, CupertinoPageRoute(builder: (context) => new WebView(_article.url)));
+                      }, shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20)))),
+                    )
+                  ),
+                  new Container(margin: EdgeInsets.only(top: 5, bottom: 20), child:
+                    new SizedBox(width: double.infinity,
+                      child: new RaisedButton(child: new Text(MyLocalizations.of(context).trans("visit_url").toUpperCase(), style: TextStyle(color: Theme.of(context).accentColor)), elevation: 5, padding: EdgeInsets.all(10), color: Colors.white, onPressed: (){
+                        _launchURL(_article.url);
+                      }, shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20)))),
+                    )
                   )
-                )
+                ])
               ])
             )
         )

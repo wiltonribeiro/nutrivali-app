@@ -31,6 +31,7 @@ dependencies:
   carousel_slider: ^1.0.1
   firebase_admob: 0.6.1
   url_launcher: ^5.0.1
+  flutter_webview_plugin: ^0.3.0+2
 
 dev_dependencies:
   flutter_test:

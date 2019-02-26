@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:app/config/MyLocalizations.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:app/controllers/NewsController.dart';
 import 'components/ArticleComponent.dart';
 
@@ -10,8 +9,10 @@ class News extends StatefulWidget {
 
 class _News extends State<News> {
 
-  int _current = 0;
+  static double positionScroll = 0;
+  String lang;
   bool _loading = true;
+  ScrollController _scrollController = new ScrollController();
   List _news = new List();
   bool _checkConfiguration() => true;
 
@@ -20,14 +21,13 @@ class _News extends State<News> {
     super.initState();
     if(_checkConfiguration()){
       new Future.delayed(Duration.zero,(){
-
         if(NewsController().isAlreadyBeenCalled()){
           setState(() {
             _news = NewsController().getNews();
             _loading = false;
           });
         } else {
-          var lang = MyLocalizations.of(context).trans("language");
+          lang = MyLocalizations.of(context).trans("language");
           loadNews(lang);
         }
       });
@@ -37,6 +37,10 @@ class _News extends State<News> {
 
   void loadNews(String lang) async {
 
+    setState(() {
+      _loading = true;
+    });
+
     var response = await new NewsController().requestNews(lang);
 
     setState(() {
@@ -45,39 +49,36 @@ class _News extends State<News> {
     });
 
   }
+  
+  void _loadMore(){
+    print("oi");
+  }
 
   Widget _loadingContent(){
     return new Center(child: new SizedBox(width: 40, height: 40, child: new CircularProgressIndicator(valueColor: new AlwaysStoppedAnimation<Color>(Theme.of(context).accentColor), strokeWidth: 1)));
   }
 
   Widget _carouselContent(){
-    return new CarouselSlider(
-        items: _news.map((item) {
-          return new Builder(
-            builder: (BuildContext context) {
-              return new Container(
-                  width: MediaQuery.of(context).size.width,
-                  margin: new EdgeInsets.only(left: 15, bottom: 10),
-                  child: new ArticleComponent(item)
-              );
-            },
+
+
+    _scrollController.addListener(() {
+      double maxScroll = _scrollController.position.maxScrollExtent;
+      double currentScroll = _scrollController.position.pixels;
+      if (maxScroll == currentScroll) {
+        positionScroll = maxScroll;
+        _loadMore();
+      }
+    });
+
+
+    return new Container(height: MediaQuery.of(context).size.height - 20, child:
+      new ListView.builder(controller: _scrollController, scrollDirection: Axis.horizontal, itemCount: _news.length, itemBuilder: (context, position) {
+          return new Container(
+                width: MediaQuery.of(context).size.width - 40,
+                margin: new EdgeInsets.only(left: 15, bottom: 10),
+                child: new ArticleComponent(_news[position])
           );
-        }).toList(),
-        updateCallback: (index) {
-
-//          if(index == _news.length-3){
-//            var lang = MyLocalizations.of(context).trans("language");
-//            loadNews(lang);
-//          }
-
-          setState(() {
-            _current = index;
-          });
-        },
-        reverse: false,
-        height: MediaQuery.of(context).size.height,
-        autoPlayDuration: Duration(days: 1),
-        autoPlay: false
+      })
     );
   }
 
